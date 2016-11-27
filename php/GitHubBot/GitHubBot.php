@@ -1,6 +1,8 @@
 <?php
 namespace GitHubBot\GitHubBot;
 
+use GithubBot\BotConfig\BotConfig;
+
 class GitHubBot{
   private $config;
 
