@@ -18,5 +18,13 @@ class HttpResult{
       $pos = strpos($line, ":");
       $this->head[substr($line, 0, $pos)] = substr($line, $pos+2);
     }
+    
+    //handle Transfer-Encoding: chunked
+    if(!empty($this->head["Transfer-Encoding"]) && $this->head["Transfer-Encoding"] == "chunked")
+      return $this->chunk($socket);
+  }
+  
+  private function chunk($socket){
+    
   }
 }
