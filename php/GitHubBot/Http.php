@@ -71,11 +71,16 @@ class Http{
     $request = [
       $this->information["method"]." ".$this->information["path"]." HTTP/1.1",
       "Host: ".$this->information["host"],
-      "",
     ];
     
     if($this->information["method"] == "POST"){
-      $request[] = $this->encodePost();
+      $post = $this->encodePost();
+      $request[] = "Content-Type: application/x-www-form-urlencoded";
+      $request[] = "Content-Length: ".strlen($post);
+      $request[] = "";
+      $request[] = $post;
+    }else{
+      $request[] = "";
     }
     
     fwrite($socket, implode("\r\n", $request));
