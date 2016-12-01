@@ -8,6 +8,7 @@ class Http{
     "port"   => 80,
     "path"   => "/",
     "method" => "GET",
+    "posts"  => [],
   ];
   
   public function __construct(string $url){
@@ -49,5 +50,13 @@ class Http{
     foreach($post as $key => $value){
       $this->post($key, $value);
     }
+  }
+  
+  public function post(string $key, string $value){
+    if($this->information["method"] !== "POST"){
+      $this->information["method"] = "POST";
+    }
+    
+    $this->information["posts"][$key] = $value;
   }
 }
