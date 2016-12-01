@@ -1,6 +1,8 @@
 <?php
 namespace GitHubBot\Http;
 
+use GitHubBot\HttpResult\HttpResult;
+
 class Http{
   private $information = [
     "ssl"    => false,
@@ -68,7 +70,23 @@ class Http{
     
     $request = [
       $this->information["method"]." ".$this->information["path"]." HTTP/1.1",
-      "Host: ".$this->information["host"]
+      "Host: ".$this->information["host"],
+      "",
     ];
+    
+    if($this->information["method"] == "POST"){
+      $request[] = $this->encodePost();
+    }
+    
+    fwrite($socket, implode("\r\n", $request));
+    return new HttpResult($socket);
+  }
+  
+  private function encodePost(){
+    $return = [];
+    foreach($this->information["posts"] as $key => $value){
+      $return[urlencode($key)] = urlencode($value);
+    }
+    return implode("&", $return);
   }
 }
