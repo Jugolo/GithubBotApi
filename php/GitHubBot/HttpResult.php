@@ -25,6 +25,11 @@ class HttpResult{
   }
   
   private function chunk($socket){
-    
+    $return = "";
+    while(!feof($socket)){
+      $length = hexdec(fgets($socket));
+      $return .= fread($socket, $length);
+    }
+    return $return;
   }
 }
