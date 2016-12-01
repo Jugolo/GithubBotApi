@@ -2,6 +2,7 @@
 namespace GithubBot\EventBuilder;
 
 use GithubBot\BotConfig\BotConfig;
+use GithubBot\Http\Http;
 
 class EventBuilder{
   private $config;
@@ -30,6 +31,12 @@ class EventBuilder{
   }
 
   public function request(string $event){
-
+      $http = new Http("http://github.cowscript.dk/api.php?n=".md5($this->config->username)."&p=".md5($this->config->password)."&r=".md5($this->config->repo));
+      $http->MultiPost($this->arg);
+      $respons = $http->exec();
+      if($respons->status == 500){
+        throw new Exception($respons->body());
+      }
+      return $respons->status;
   }
 }
