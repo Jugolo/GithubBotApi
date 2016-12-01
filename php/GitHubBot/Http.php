@@ -20,5 +20,16 @@ class Http{
     if(strpos($url, "www.") === 0){
       $url = substr($url, 4);
     }
+    
+    if(($pos = strpos($url, "/")) !== false){
+      $host = substr($url, 0, $pos);
+      $this->information["path"] = substr($url, $pos);
+      if(($pos = strpos($host, ":")) !== false){
+        $this->information["host"] = substr($host, 0, $pos);
+        $this->information["port"] = intval(substr($host, $pos+1));
+      }else{
+        $this->information["host"] = $host;
+      }
+    }
   }
 }
