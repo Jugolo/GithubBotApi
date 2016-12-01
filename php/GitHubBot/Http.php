@@ -59,4 +59,16 @@ class Http{
     
     $this->information["posts"][$key] = $value;
   }
+  
+  public function exec() : HttpResult{
+    $host = ($this->information["ssl"] ? "ssl://" : "").$this->information["host"];
+    $socket = fsockopen($host, $this->information["port"]);
+    if(!$socket)
+      throw new \Exception("Could not connect to the url");
+    
+    $request = [
+      $this->information["method"]." ".$this->information["path"]." HTTP/1.1",
+      "Host: ".$this->information["host"]
+    ];
+  }
 }
