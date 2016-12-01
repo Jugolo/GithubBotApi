@@ -44,4 +44,10 @@ class Http{
       $this->information["host"] = $url;
     }
   }
+  
+  public function MultiPost(array $post){
+    foreach($post as $key => $value){
+      $this->post($key, $value);
+    }
+  }
 }
