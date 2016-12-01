@@ -3,10 +3,11 @@ namespace GitHubBot\Http;
 
 class Http{
   private $information = [
-    "ssl"  => false,
-    "host" => null,
-    "port" => 80,
-    "path" => "/"
+    "ssl"    => false,
+    "host"   => null,
+    "port"   => 80,
+    "path"   => "/",
+    "method" => "GET",
   ];
   
   public function __construct(string $url){
