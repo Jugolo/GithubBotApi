@@ -22,6 +22,17 @@ class HttpResult{
     //handle Transfer-Encoding: chunked
     if(!empty($this->head["Transfer-Encoding"]) && $this->head["Transfer-Encoding"] == "chunked")
       return $this->chunk($socket);
+    
+    if(!empty($this->head["Content-Length"]))
+      return fread($socket, intval($this->head["Content-Length"]));
+    
+    //okay let us push all wee can in a variabel
+    $buffer = "";
+    while($line = fgets($socket)){
+      $buffer .= $line;
+    }
+    
+    return $buffer;
   }
   
   private function chunk($socket){
